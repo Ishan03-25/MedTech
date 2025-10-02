@@ -1,15 +1,19 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle login logic here
     console.log('Login attempt:', { username, password });
+    // Temporary: navigate to dashboard after submit
+    router.push('/dashboard');
   };
 
   return (

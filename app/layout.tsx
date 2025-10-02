@@ -24,10 +24,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}>
+        <main className="flex-1">
+          {children}
+        </main>
+        <footer className="w-full text-center text-sm text-slate-500 py-6">
+          <span>© Copyright </span>
+          <span className="font-semibold text-[#0f172a]">Anemia Screening</span>
+          <span>. All Rights Reserved</span>
+        </footer>
       </body>
     </html>
   );

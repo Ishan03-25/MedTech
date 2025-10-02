@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  /* Match app background so footer text sits on same color */
+  --background: #f6f9ff;
   --foreground: #171717;
 }
 
