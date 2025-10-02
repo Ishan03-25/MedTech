@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
+import DashboardStats from "@/components/DashboardStats";
+import AnemiaScreening from "@/components/AnemiaScreening";
 import medtechHeader from "@/public/Screenshot 2025-10-02 205443.png";
 
 export default function DashboardPage() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [activePage, setActivePage] = useState<'dashboard' | 'anemia'>('dashboard');
 
   return (
     <div className="min-h-screen bg-[#f6f9ff] text-[#0f172a]">
@@ -75,6 +77,18 @@ export default function DashboardPage() {
               </svg>
             </div>
             <span className="text-sm font-medium">Sohom</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-4 h-4 text-[#0f172a]"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z"
+                clipRule="evenodd"
+              />
+            </svg>
           </div>
         </div>
       </header>
@@ -87,9 +101,13 @@ export default function DashboardPage() {
           } hidden md:block bg-white min-h-[calc(100vh-64px)] border-r transition-all duration-200`}
         >
           <nav className="p-6">
-            <Link
-              href="#"
-              className="flex items-center gap-3 text-[#0f172a] hover:text-blue-600 mb-6"
+            <button
+              onClick={() => setActivePage('dashboard')}
+              className={`flex items-center gap-3 w-full text-left mb-6 ${
+                activePage === 'dashboard' 
+                  ? 'text-blue-600' 
+                  : 'text-[#0f172a] hover:text-blue-600'
+              }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -108,22 +126,28 @@ export default function DashboardPage() {
               {!isSidebarCollapsed && (
                 <span className="font-semibold">Dashboard</span>
               )}
-            </Link>
+            </button>
 
             {!isSidebarCollapsed && (
               <div className="text-xs text-slate-400 uppercase tracking-wide mb-2">
                 Main
               </div>
             )}
-            <Link
-              href="#"
-              className="flex items-center gap-3 text-[#0f172a] hover:text-blue-600"
+            <button
+              onClick={() => setActivePage('anemia')}
+              className={`flex items-center gap-3 w-full text-left ${
+                activePage === 'anemia' 
+                  ? 'text-blue-600' 
+                  : 'text-[#0f172a] hover:text-blue-600'
+              }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className="w-5 h-5 text-blue-600"
+                className={`w-5 h-5 ${
+                  activePage === 'anemia' ? 'text-blue-600' : 'text-blue-600'
+                }`}
               >
                 <path d="M12 2.25c-2.485 0-4.5 2.015-4.5 4.5S9.515 11.25 12 11.25s4.5-2.015 4.5-4.5S14.485 2.25 12 2.25z" />
                 <path
@@ -135,104 +159,13 @@ export default function DashboardPage() {
               {!isSidebarCollapsed && (
                 <span className="font-medium">Anemia Screening</span>
               )}
-            </Link>
+            </button>
           </nav>
         </aside>
 
         {/* Content */}
         <main className="flex-1 p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Card 1 */}
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <div className="text-slate-600 text-sm font-medium mb-4">
-                Title Here
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full bg-[#eef2ff] grid place-items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-7 h-7 text-[#6366f1]"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM3.75 20.25a8.25 8.25 0 0116.5 0v.75H3.75v-.75z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="text-3xl font-extrabold tracking-tight text-[#0f172a]">
-                  145
-                </div>
-              </div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <div className="text-slate-600 text-sm font-medium mb-4">
-                Title Here
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full bg-[#eafff1] grid place-items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-7 h-7 text-green-500"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM3.75 20.25a8.25 8.25 0 0116.5 0v.75H3.75v-.75z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="text-3xl font-extrabold tracking-tight text-green-600">
-                  3,264
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <div className="text-slate-600 text-sm font-medium mb-4">
-                Title Here
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full bg-[#fff1e7] grid place-items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-7 h-7 text-orange-500"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM3.75 20.25a8.25 8.25 0 0116.5 0v.75H3.75v-.75z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="text-3xl font-extrabold tracking-tight text-orange-500">
-                  1244
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Footer removed: now globally handled in layout
-          <footer className="bg-gray-50 border-t border-gray-200 px-6 py-4 flex-shrink-0">
-            <div className="text-center text-sm text-gray-600">
-              © 2025 OROSCAN | All Right Reserved ❤️ Developed by - Prof. Suman
-              Chakraborty&apos;s group at IIT Kharagpur
-            </div>
-            <span>© Copyright </span>
-            <span className="font-semibold text-[#0f172a]">
-              Anemia Screening
-            </span>
-            <span>. All Rights Reserved</span>
-          </footer> */}
+          {activePage === 'dashboard' ? <DashboardStats /> : <AnemiaScreening />}
         </main>
       </div>
     </div>
