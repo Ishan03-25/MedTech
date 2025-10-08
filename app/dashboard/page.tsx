@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import DashboardStats from "@/components/DashboardStats";
 import AnemiaScreening from "@/components/AnemiaScreening";
 import medtechHeader from "@/public/Screenshot 2025-10-02 205443.png";
@@ -9,6 +9,22 @@ import medtechHeader from "@/public/Screenshot 2025-10-02 205443.png";
 export default function DashboardPage() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [activePage, setActivePage] = useState<'dashboard' | 'anemia'>('dashboard');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#f6f9ff] text-[#0f172a]">
@@ -61,34 +77,81 @@ export default function DashboardPage() {
               <path d="M8.25 18.75a3.75 3.75 0 007.5 0h-7.5z" />
             </svg>
           </button>
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-blue-100 rounded-full grid place-items-center">
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center gap-2 hover:bg-gray-50 rounded-lg px-2 py-1 transition-colors"
+            >
+              <div className="w-9 h-9 bg-blue-100 rounded-full grid place-items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-5 h-5 text-blue-600"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM3.75 20.25a8.25 8.25 0 0116.5 0v.75H3.75v-.75z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-[#0f172a]">Sohom</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className="w-5 h-5 text-blue-600"
+                className={`w-4 h-4 text-[#0f172a] transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
               >
                 <path
                   fillRule="evenodd"
-                  d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM3.75 20.25a8.25 8.25 0 0116.5 0v.75H3.75v-.75z"
+                  d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z"
                   clipRule="evenodd"
                 />
               </svg>
-            </div>
-            <span className="text-sm font-medium">Sohom</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-4 h-4 text-[#0f172a]"
-            >
-              <path
-                fillRule="evenodd"
-                d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z"
-                clipRule="evenodd"
-              />
-            </svg>
+            </button>
+
+            {/* Dropdown Menu */}
+            {isDropdownOpen && (
+              <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50">
+                {/* User Info Section */}
+                <div className="px-4 py-3 text-center border-b border-gray-100">
+                  <div className="text-lg font-semibold text-gray-800">Sohom</div>
+                  <div className="text-sm text-gray-500">administrator</div>
+                </div>
+                
+                {/* Sign Out Section */}
+                <div className="py-1">
+                  <button
+                    onClick={() => {
+                      // Handle sign out logic here
+                      console.log('Sign out clicked');
+                      setIsDropdownOpen(false);
+                    }}
+                    className="flex items-center gap-3 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="w-4 h-4 text-gray-500"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.5 3.75a1.5 1.5 0 011.5 1.5v13.5a1.5 1.5 0 01-1.5 1.5h-6a1.5 1.5 0 01-1.5-1.5V15a.75.75 0 00-1.5 0v3.75a3 3 0 003 3h6a3 3 0 003-3V5.25a3 3 0 00-3-3h-6a3 3 0 00-3 3V9a.75.75 0 001.5 0V5.25a1.5 1.5 0 011.5-1.5h6z"
+                        clipRule="evenodd"
+                      />
+                      <path
+                        fillRule="evenodd"
+                        d="M14.25 9.75a.75.75 0 00-1.5 0v4.5a.75.75 0 001.5 0v-4.5zm-8.03 4.28a.75.75 0 000-1.06L4.03 11.25H10.5a.75.75 0 000-1.5H4.03l2.19-2.22a.75.75 0 00-1.06-1.06l-3.5 3.5a.75.75 0 000 1.06l3.5 3.5a.75.75 0 001.06-1.06z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    Sign Out
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </header>
