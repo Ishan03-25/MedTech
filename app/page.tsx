@@ -1,108 +1,149 @@
-'use client';
+"use client"
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import type React from "react"
 
-export default function Home() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const router = useRouter();
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Eye, EyeOff } from "lucide-react"
+import { ThemeToggle } from "@/components/theme-toggle"
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle login logic here
-    console.log('Login attempt:', { username, password });
-    // Temporary: navigate to dashboard after submit
-    router.push('/dashboard');
-  };
+export default function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setTimeout(() => {
+      window.location.href = "/dashboard"
+    }, 1000)
+  }
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Background with red blood cells pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-red-900 via-red-800 to-red-900">
-        {/* Red blood cells pattern using CSS */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-10 left-10 w-32 h-32 bg-red-600 rounded-full blur-sm"></div>
-          <div className="absolute top-32 right-20 w-24 h-24 bg-red-500 rounded-full blur-sm"></div>
-          <div className="absolute top-60 left-1/4 w-28 h-28 bg-red-700 rounded-full blur-sm"></div>
-          <div className="absolute bottom-32 right-1/3 w-36 h-36 bg-red-600 rounded-full blur-sm"></div>
-          <div className="absolute bottom-20 left-1/2 w-20 h-20 bg-red-500 rounded-full blur-sm"></div>
-          <div className="absolute top-1/3 right-1/4 w-30 h-30 bg-red-700 rounded-full blur-sm"></div>
-          <div className="absolute bottom-1/3 left-1/3 w-26 h-26 bg-red-600 rounded-full blur-sm"></div>
-        </div>
+    <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-red-500/20 blur-3xl animate-pulse" />
+        <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl animate-pulse" />
       </div>
 
-      {/* Login Form Container */}
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
-          {/* Logo Section */}
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center mb-4">
-              <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mr-3">
-                <div className="w-6 h-6 bg-red-500 rounded-sm"></div>
-              </div>
-              <div className="text-left">
-                <h1 className="text-2xl font-bold text-red-600">Medtech.</h1>
-                <p className="text-xs text-white bg-black px-2 py-1 rounded">Disruptive Healthcare Technologies</p>
+      {/* Medical imagery background */}
+      <div
+        className="absolute inset-0 opacity-30"
+        style={{
+          backgroundImage: "url(/placeholder.svg?height=1080&width=1920&query=blood-cells-medical-microscopy)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+
+      {/* Theme Toggle */}
+      <div className="absolute top-4 right-4 z-20">
+        <ThemeToggle />
+      </div>
+
+      {/* Login card */}
+      <div className="relative z-10 flex min-h-screen items-center justify-center px-4">
+        <div className="w-full max-w-md animate-fade-in">
+          <div className="rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-2xl p-8 border border-white/20 dark:border-slate-700/20">
+            {/* Logo */}
+            <div className="mb-8 flex justify-center">
+              <div className="flex items-center gap-2">
+                <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">M</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-bold text-lg text-slate-900 dark:text-slate-100">MedTech</span>
+                  <span className="text-xs text-slate-600 dark:text-slate-400">Healthcare Solutions</span>
+                </div>
               </div>
             </div>
-            <h2 className="text-2xl font-semibold text-blue-900 mb-2">Anemia Screening</h2>
-            <p className="text-gray-600 text-sm">Enter your username & password to login</p>
+
+            {/* Title */}
+            <div className="mb-8 text-center">
+              <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Anemia Screening</h1>
+              <p className="text-sm text-slate-600 dark:text-slate-400">Enter your credentials to access the platform</p>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleLogin} className="space-y-5">
+              {/* Username */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Username</label>
+                <div className="relative">
+                  <Input
+                    type="text"
+                    placeholder="Enter your username"
+                    className="pl-10 h-11 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-600 focus:border-primary focus:ring-primary"
+                    required
+                  />
+                  <svg
+                    className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Password */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Password</label>
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    className="pl-10 pr-10 h-11 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-600 focus:border-primary focus:ring-primary"
+                    required
+                  />
+                  <svg
+                    className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
+                  </svg>
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Login button */}
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full h-11 bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-primary/50 transition-all duration-300 text-white font-semibold mt-6"
+              >
+                {isLoading ? "Logging in..." : "Login"}
+              </Button>
+            </form>
+
+            {/* Footer */}
+            <div className="mt-6 text-center text-xs text-slate-500 dark:text-slate-400">
+              <p>© 2025 MedTech. All rights reserved.</p>
+            </div>
           </div>
-
-          {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Username Field */}
-            <div>
-              <div className="flex items-center mb-2">
-                <svg className="w-4 h-4 text-gray-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                </svg>
-                <label htmlFor="username" className="text-sm font-medium text-gray-700">Username</label>
-              </div>
-              <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter your username"
-                required
-              />
-            </div>
-
-            {/* Password Field */}
-            <div>
-              <div className="flex items-center mb-2">
-                <svg className="w-4 h-4 text-gray-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                </svg>
-                <label htmlFor="password" className="text-sm font-medium text-gray-700">Password</label>
-              </div>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter your password"
-                required
-              />
-            </div>
-
-            {/* Login Button */}
-            <button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
-            >
-              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-              </svg>
-              Login
-            </button>
-          </form>
         </div>
       </div>
     </div>
-  );
+  )
 }

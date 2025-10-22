@@ -1,236 +1,243 @@
-"use client";
+"use client"
 
-import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
-import DashboardStats from "@/components/DashboardStats";
-import AnemiaScreening from "@/components/AnemiaScreening";
-import medtechHeader from "@/public/Screenshot 2025-10-02 205443.png";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Users, Activity, TrendingUp, AlertCircle, Plus } from "lucide-react"
+import Link from "next/link"
+
+const screeningData = [
+  { month: "Jan", completed: 45, pending: 12 },
+  { month: "Feb", completed: 52, pending: 8 },
+  { month: "Mar", completed: 48, pending: 15 },
+  { month: "Apr", completed: 61, pending: 10 },
+  { month: "May", completed: 55, pending: 14 },
+  { month: "Jun", completed: 67, pending: 9 },
+]
+
+const riskDistribution = [
+  { name: "Low Risk", value: 45, color: "#10b981" },
+  { name: "Medium Risk", value: 30, color: "#f59e0b" },
+  { name: "High Risk", value: 15, color: "#ef4444" },
+  { name: "Pending", value: 10, color: "#6b7280" },
+]
+
+const recentScreenings = [
+  { id: 1, name: "John Doe", date: "2025-10-20", status: "Completed", risk: "Low" },
+  { id: 2, name: "Jane Smith", date: "2025-10-19", status: "Completed", risk: "Medium" },
+  { id: 3, name: "Mike Johnson", date: "2025-10-18", status: "Pending", risk: "N/A" },
+  { id: 4, name: "Sarah Williams", date: "2025-10-17", status: "Completed", risk: "High" },
+  { id: 5, name: "Tom Brown", date: "2025-10-16", status: "Completed", risk: "Low" },
+]
 
 export default function DashboardPage() {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const [activePage, setActivePage] = useState<'dashboard' | 'anemia'>('dashboard');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
   return (
-    <div className="min-h-screen bg-[#f6f9ff] text-[#0f172a]">
-      {/* Topbar */}
-      <header className="h-16 bg-white shadow-sm flex items-center justify-between px-4 sm:px-6">
-        <div className="flex items-center gap-3">
-          <button
-            aria-label="Menu"
-            className="p-2 rounded-md hover:bg-gray-100"
-            onClick={() => setIsSidebarCollapsed((v) => !v)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-6 h-6 text-[#0f172a]"
-            >
-              <path
-                fillRule="evenodd"
-                d="M3.75 5.25a.75.75 0 01.75-.75h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75zm0 6a.75.75 0 01.75-.75h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75zm0 6a.75.75 0 01.75-.75h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
-          <div className="flex items-center">
-            <div className="leading-tight">
-              <Image
-                src={medtechHeader}
-                alt="Medtech"
-                width={140}
-                height={140}
-                priority
-              />
-            </div>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+      {/* Header - Removed duplicate MedTech heading */}
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Statistics Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {/* Total Screenings */}
+          <Card className="border-slate-200 dark:border-slate-700 shadow-md hover:shadow-lg transition-shadow bg-white dark:bg-slate-800">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                <Users className="w-4 h-4 text-primary" />
+                Total Screenings
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">328</div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">+12% from last month</p>
+            </CardContent>
+          </Card>
+
+          {/* Completed */}
+          <Card className="border-slate-200 dark:border-slate-700 shadow-md hover:shadow-lg transition-shadow bg-white dark:bg-slate-800">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                <Activity className="w-4 h-4 text-green-600" />
+                Completed
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">298</div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">90.8% completion rate</p>
+            </CardContent>
+          </Card>
+
+          {/* Pending */}
+          <Card className="border-slate-200 dark:border-slate-700 shadow-md hover:shadow-lg transition-shadow bg-white dark:bg-slate-800">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-amber-600" />
+                Pending
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">30</div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">9.2% pending</p>
+            </CardContent>
+          </Card>
+
+          {/* High Risk */}
+          <Card className="border-slate-200 dark:border-slate-700 shadow-md hover:shadow-lg transition-shadow bg-white dark:bg-slate-800">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-red-600" />
+                High Risk
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">15</div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">4.6% of completed</p>
+            </CardContent>
+          </Card>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            className="p-2 rounded-full hover:bg-gray-100"
-            aria-label="Notifications"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-6 h-6 text-[#475569]"
-            >
-              <path d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.966 8.966 0 0119.5 9.75v-.75a7.5 7.5 0 10-15 0v.75c0 2.647-1.347 5.096-3.572 6.022a.75.75 0 00.178 1.441 48.6 48.6 0 0014.751 0 .75.75 0 00.178-1.441z" />
-              <path d="M8.25 18.75a3.75 3.75 0 007.5 0h-7.5z" />
-            </svg>
-          </button>
-          <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-2 hover:bg-gray-50 rounded-lg px-2 py-1 transition-colors"
-            >
-              <div className="w-9 h-9 bg-blue-100 rounded-full grid place-items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-5 h-5 text-blue-600"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM3.75 20.25a8.25 8.25 0 0116.5 0v.75H3.75v-.75z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <span className="text-sm font-medium text-[#0f172a]">Sohom</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className={`w-4 h-4 text-[#0f172a] transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
-
-            {/* Dropdown Menu */}
-            {isDropdownOpen && (
-              <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50">
-                {/* User Info Section */}
-                <div className="px-4 py-3 text-center border-b border-gray-100">
-                  <div className="text-lg font-semibold text-gray-800">Sohom</div>
-                  <div className="text-sm text-gray-500">administrator</div>
-                </div>
-                
-                {/* Sign Out Section */}
-                <div className="py-1">
-                  <button
-                    onClick={() => {
-                      // Handle sign out logic here
-                      console.log('Sign out clicked');
-                      setIsDropdownOpen(false);
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          {/* Screening Trends */}
+          <Card className="lg:col-span-2 border-slate-200 dark:border-slate-700 shadow-md bg-white dark:bg-slate-800">
+            <CardHeader>
+              <CardTitle className="text-slate-900 dark:text-slate-100">Screening Trends</CardTitle>
+              <CardDescription className="text-slate-600 dark:text-slate-400">Monthly completed and pending screenings</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={screeningData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" className="dark:stroke-slate-600" />
+                  <XAxis dataKey="month" stroke="#64748b" className="dark:stroke-slate-400" />
+                  <YAxis stroke="#64748b" className="dark:stroke-slate-400" />
+                  <Tooltip
+                    contentStyle={{ 
+                      backgroundColor: "var(--background)", 
+                      border: "1px solid var(--border)", 
+                      borderRadius: "8px",
+                      color: "var(--foreground)"
                     }}
-                    className="flex items-center gap-3 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    labelStyle={{ color: "var(--foreground)" }}
+                  />
+                  <Legend />
+                  <Bar dataKey="completed" fill="#10b981" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="pending" fill="#f59e0b" radius={[8, 8, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* Risk Distribution */}
+          <Card className="border-slate-200 dark:border-slate-700 shadow-md bg-white dark:bg-slate-800">
+            <CardHeader>
+              <CardTitle className="text-slate-900 dark:text-slate-100">Risk Distribution</CardTitle>
+              <CardDescription className="text-slate-600 dark:text-slate-400">Patient risk levels</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={riskDistribution}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, value }) => `${name}: ${value}`}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="w-4 h-4 text-gray-500"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.5 3.75a1.5 1.5 0 011.5 1.5v13.5a1.5 1.5 0 01-1.5 1.5h-6a1.5 1.5 0 01-1.5-1.5V15a.75.75 0 00-1.5 0v3.75a3 3 0 003 3h6a3 3 0 003-3V5.25a3 3 0 00-3-3h-6a3 3 0 00-3 3V9a.75.75 0 001.5 0V5.25a1.5 1.5 0 011.5-1.5h6z"
-                        clipRule="evenodd"
-                      />
-                      <path
-                        fillRule="evenodd"
-                        d="M14.25 9.75a.75.75 0 00-1.5 0v4.5a.75.75 0 001.5 0v-4.5zm-8.03 4.28a.75.75 0 000-1.06L4.03 11.25H10.5a.75.75 0 000-1.5H4.03l2.19-2.22a.75.75 0 00-1.06-1.06l-3.5 3.5a.75.75 0 000 1.06l3.5 3.5a.75.75 0 001.06-1.06z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Sign Out
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+                    {riskDistribution.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: "var(--background)", 
+                      border: "1px solid var(--border)", 
+                      borderRadius: "8px",
+                      color: "var(--foreground)"
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
         </div>
-      </header>
 
-      <div className="flex">
-        {/* Sidebar */}
-        <aside
-          className={`${
-            isSidebarCollapsed ? "w-20" : "w-72"
-          } hidden md:block bg-white min-h-[calc(100vh-64px)] border-r transition-all duration-200`}
-        >
-          <nav className="p-6">
-            <button
-              onClick={() => setActivePage('dashboard')}
-              className={`flex items-center gap-3 w-full text-left mb-6 ${
-                activePage === 'dashboard' 
-                  ? 'text-blue-600' 
-                  : 'text-[#0f172a] hover:text-blue-600'
-              }`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-5 h-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                />
-              </svg>
-              {!isSidebarCollapsed && (
-                <span className="font-semibold">Dashboard</span>
-              )}
-            </button>
-
-            {!isSidebarCollapsed && (
-              <div className="text-xs text-slate-400 uppercase tracking-wide mb-2">
-                Main
-              </div>
-            )}
-            <button
-              onClick={() => setActivePage('anemia')}
-              className={`flex items-center gap-3 w-full text-left ${
-                activePage === 'anemia' 
-                  ? 'text-blue-600' 
-                  : 'text-[#0f172a] hover:text-blue-600'
-              }`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className={`w-5 h-5 ${
-                  activePage === 'anemia' ? 'text-blue-600' : 'text-blue-600'
-                }`}
-              >
-                <path d="M12 2.25c-2.485 0-4.5 2.015-4.5 4.5S9.515 11.25 12 11.25s4.5-2.015 4.5-4.5S14.485 2.25 12 2.25z" />
-                <path
-                  fillRule="evenodd"
-                  d="M2.25 20.25a9.75 9.75 0 1119.5 0v.75H2.25v-.75z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              {!isSidebarCollapsed && (
-                <span className="font-medium">Anemia Screening</span>
-              )}
-            </button>
-          </nav>
-        </aside>
-
-        {/* Content */}
-        <main className="flex-1 p-6">
-          {activePage === 'dashboard' ? <DashboardStats /> : <AnemiaScreening />}
-        </main>
+        {/* Recent Screenings Table */}
+        <Card className="border-slate-200 dark:border-slate-700 shadow-md bg-white dark:bg-slate-800">
+          <CardHeader>
+            <CardTitle className="text-slate-900 dark:text-slate-100">Recent Screenings</CardTitle>
+            <CardDescription className="text-slate-600 dark:text-slate-400">Latest patient screening records</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-slate-200 dark:border-slate-700">
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Patient Name</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Date</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Status</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Risk Level</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentScreenings.map((screening) => (
+                    <tr key={screening.id} className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                      <td className="py-3 px-4 text-slate-900 dark:text-slate-100">{screening.name}</td>
+                      <td className="py-3 px-4 text-slate-600 dark:text-slate-400">{screening.date}</td>
+                      <td className="py-3 px-4">
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            screening.status === "Completed"
+                              ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
+                              : "bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200"
+                          }`}
+                        >
+                          {screening.status}
+                        </span>
+                      </td>
+                      <td className="py-3 px-4">
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            screening.risk === "Low"
+                              ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
+                              : screening.risk === "Medium"
+                                ? "bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200"
+                                : screening.risk === "High"
+                                  ? "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200"
+                                  : "bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200"
+                          }`}
+                        >
+                          {screening.risk}
+                        </span>
+                      </td>
+                      <td className="py-3 px-4">
+                        <Button variant="outline" size="sm" className="text-xs bg-transparent border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                          View
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
-  );
+  )
 }
