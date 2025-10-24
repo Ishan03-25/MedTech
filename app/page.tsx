@@ -3,21 +3,75 @@
 import type React from "react"
 
 import { useState } from "react"
+import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Eye, EyeOff } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { toast } from "sonner"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [identifier, setIdentifier] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    setTimeout(() => {
-      window.location.href = "/dashboard"
-    }, 1000)
+    setError(null)
+    try {
+      const check = await fetch("/api/auth/check-credentials", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ identifier, password }),
+      })
+
+      const payload = await check.json().catch(() => ({}))
+      if (!check.ok || payload?.ok === false) {
+        if (payload?.reason === "identifier") {
+          setError("Incorrect username or email.")
+          toast.error("Incorrect username or email")
+        } else if (payload?.reason === "password") {
+          setError("Incorrect password.")
+          toast.error("Incorrect password")
+        } else if (payload?.reason === "both") {
+          setError("Username/email and password are required.")
+          toast.error("Username/email and password are required")
+        } else {
+          setError("Unable to sign in. Please try again.")
+          toast.error("Unable to sign in. Please try again.")
+        }
+        setIsLoading(false)
+        return
+      }
+
+      const res = await signIn("credentials", {
+        redirect: false,
+        identifier,
+        password,
+        callbackUrl: "/dashboard",
+      })
+
+      if (res?.error) {
+        console.error("Signin error:", res.error)
+        setError("Sign in failed. Please check your credentials.")
+        toast.error("Sign in failed. Please check your credentials.")
+      } else if (res?.ok) {
+        // Prefer programmatic navigation to avoid full reload
+        toast.success("Logged in successfully")
+        router.push(res.url ?? "/dashboard")
+        return
+      }
+    } catch (err) {
+      console.error("Error in signin: ", err);
+      setError("An unexpected error occurred. Please try again.")
+      toast.error("An unexpected error occurred. Please try again.")
+    }
+    setIsLoading(false)
   }
 
   return (
@@ -70,12 +124,14 @@ export default function LoginPage() {
             <form onSubmit={handleLogin} className="space-y-5">
               {/* Username */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Username</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Username or email</label>
                 <div className="relative">
                   <Input
                     type="text"
                     placeholder="Enter your username"
                     className="pl-10 h-11 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-600 focus:border-primary focus:ring-primary"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
                     required
                   />
                   <svg
@@ -102,6 +158,8 @@ export default function LoginPage() {
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
                     className="pl-10 pr-10 h-11 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-600 focus:border-primary focus:ring-primary"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                   <svg
@@ -126,6 +184,11 @@ export default function LoginPage() {
                   </button>
                 </div>
               </div>
+
+              {/* Error message */}
+              {error ? (
+                <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+              ) : null}
 
               {/* Login button */}
               <Button

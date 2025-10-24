@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 import { Navbar } from "./navbar"
 import { Sidebar } from "./sidebar"
 import { SidebarProvider, useSidebar } from "./sidebar-context"
+import { SessionProvider } from "next-auth/react"
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const { isOpen, closeSidebar } = useSidebar()
@@ -30,12 +31,18 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const isLoginPage = pathname === "/"
 
   if (isLoginPage) {
-    return <>{children}</>
+    return (
+      <SessionProvider>
+        {children}
+      </SessionProvider>
+    )
   }
 
   return (
-    <SidebarProvider>
-      <LayoutContent>{children}</LayoutContent>
-    </SidebarProvider>
+    <SessionProvider>
+      <SidebarProvider>
+        <LayoutContent>{children}</LayoutContent>
+      </SidebarProvider>
+    </SessionProvider>
   )
 }

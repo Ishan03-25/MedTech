@@ -1,22 +1,47 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Menu, X, LogOut, Globe, PanelLeft } from "lucide-react"
 import { useState } from "react"
 import { ThemeToggle } from "./theme-toggle"
 import { useSidebar } from "./sidebar-context"
+import { signOut } from "next-auth/react"
+import { toast } from "sonner"
+import { useSession } from "next-auth/react"
 
 export function Navbar() {
   const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { toggleSidebar } = useSidebar()
+  const router = useRouter()
+  const { data: session } = useSession()
+  const displayName = session?.user?.name || session?.user?.email || "User"
+  const initials = (() => {
+    const name = (session?.user?.name || "").trim()
+    if (!name) {
+      const email = session?.user?.email || ""
+      const base = email.split("@")[0] || "U"
+      return base.slice(0, 2).toUpperCase()
+    }
+    const parts = name.split(/\s+/).filter(Boolean)
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase()
+    }
+    return parts[0].slice(0, 2).toUpperCase()
+  })()
 
   const isLoginPage = pathname === "/"
 
-  const handleLogout = () => {
-    window.location.href = "/"
+  const handleLogout = async () => {
+    try {
+      const res = await signOut({ redirect: false, callbackUrl: "/" })
+      toast.success("Logged out successfully")
+      router.push(res?.url ?? "/")
+    } catch (e) {
+      toast.error("Failed to logout. Please try again.")
+    }
   }
 
   if (isLoginPage) {
@@ -63,10 +88,10 @@ export function Navbar() {
             <div className="flex items-center gap-3 pl-3 border-l border-slate-200 dark:border-slate-700">
               <div className="flex items-center gap-3">
                 <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white font-semibold text-sm">
-                  JD
+                  {initials}
                 </div>
                 <div className="hidden sm:block">
-                  <p className="text-sm font-medium text-slate-900 dark:text-slate-100">John Doe</p>
+                  <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{displayName}</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">Administrator</p>
                 </div>
               </div>
@@ -102,10 +127,10 @@ export function Navbar() {
               {/* User Info */}
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white font-semibold">
-                  JD
+                  {initials}
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-slate-900 dark:text-slate-100">John Doe</p>
+                  <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{displayName}</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">Administrator</p>
                 </div>
               </div>
