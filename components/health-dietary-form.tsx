@@ -39,6 +39,22 @@ export function HealthDietaryForm() {
       dietaryHabits: { en: "Dietary Habits", hi: "आहार संबंधी आदतें", bn: "খাদ্যাভ্যাস" },
       height: { en: "Height (cm)", hi: "ऊंचाई (सेमी)", bn: "উচ্চতা (সেমি)" },
       weight: { en: "Weight (kg)", hi: "वजन (किग्रा)", bn: "ওজন (কেজি)" },
+      bloodPressure: { en: "Blood Pressure (mmHg)", hi: "रक्तचाप (mmHg)", bn: "রক্তচাপ (mmHg)" },
+      dietaryHabitsSection: { en: "Dietary Habits", hi: "आहार संबंधी आदतें", bn: "খাদ্যাভ্যাস" },
+      dietTypeLabel: { en: "Primary Diet Type", hi: "मुख्य आहार प्रकार", bn: "প্রধান খাদ্য ধরণ" },
+      meatConsumptionLabel: { en: "Meat Consumption Frequency", hi: "मांस सेवन की आवृत्ति", bn: "মাংস খাওয়ার ঘনত্ব" },
+      vegetableServingsLabel: { en: "Vegetable Servings per Day", hi: "प्रतिदिन सब्जियों की सर्विंग", bn: "প্রতিদিন সবজির পরিবেশন" },
+      fruitServingsLabel: { en: "Fruit Servings per Day", hi: "प्रतिदिन फलों की सर्विंग", bn: "প্রতিদিন ফলের পরিবেশন" },
+      dairyConsumptionLabel: { en: "Dairy Consumption", hi: "डेयरी का सेवन", bn: "দুগ্ধজাত খাবার গ্রহণ" },
+      ironRichFoodsLabel: { en: "Iron-Rich Foods Consumption", hi: "आयरन युक्त खाद्य पदार्थों का सेवन", bn: "লোহা সমৃদ্ধ খাবার গ্রহণ" },
+      vitaminCIntakeLabel: { en: "Vitamin C Intake", hi: "विटामिन C का सेवन", bn: "ভিটামিন C গ্রহণ" },
+      supplementsLabel: { en: "Current Supplements", hi: "वर्तमान सप्लीमेंट्स", bn: "বর্তমান সাপ্লিমেন্ট" },
+      lifestyleHabits: { en: "Lifestyle Habits", hi: "जीवनशैली की आदतें", bn: "জীবনযাপনের অভ্যাস" },
+      exerciseFrequencyLabel: { en: "Exercise Frequency", hi: "व्यायाम की आवृत्ति", bn: "ব্যায়ামের ঘনত্ব" },
+      exerciseDurationLabel: { en: "Average Exercise Duration (minutes)", hi: "औसत व्यायाम अवधि (मिनट)", bn: "গড় ব্যায়ামের সময় (মিনিট)" },
+      sleepHoursLabel: { en: "Average Sleep Hours per Night", hi: "प्रति रात औसत नींद के घंटे", bn: "প্রতি রাতে গড় ঘুমের সময়" },
+      stressLevelLabel: { en: "Stress Level", hi: "तनाव का स्तर", bn: "চাপের মাত্রা" },
+      waterIntakeLabel: { en: "Daily Water Intake (glasses)", hi: "दैनिक जल सेवन (गिलास)", bn: "প্রতিদিন পানি গ্রহণ (গ্লাস)" },
       saveContinue: { en: "Save & Continue", hi: "सहेजें और जारी रखें", bn: "সংরক্ষণ ও চালিয়ে যান" },
       cancel: { en: "Cancel", hi: "रद्द करें", bn: "বাতিল করুন" },
     }
@@ -156,7 +172,7 @@ export function HealthDietaryForm() {
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2">
                   <Droplet className="w-4 h-4" />
-                  Blood Pressure (mmHg) *
+                  {tLocal("bloodPressure")} *
                 </label>
                 <Input
                   type="text"
@@ -173,11 +189,11 @@ export function HealthDietaryForm() {
 
           {/* Dietary Habits Section */}
           <div>
-            <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4">{tLocal("dietaryHabits")}</h3>
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4">{tLocal("dietaryHabitsSection")}</h3>
             <div className="space-y-4">
               {/* Diet Type */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Primary Diet Type *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("dietTypeLabel")} *</label>
                 <select
                   name="dietType"
                   value={formData.dietType}
@@ -198,7 +214,7 @@ export function HealthDietaryForm() {
 
               {/* Meat Consumption */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Meat Consumption Frequency *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("meatConsumptionLabel")} *</label>
                 <select
                   name="meatConsumption"
                   value={formData.meatConsumption}
@@ -219,7 +235,7 @@ export function HealthDietaryForm() {
 
               {/* Vegetable Servings */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Vegetable Servings per Day *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("vegetableServingsLabel")} *</label>
                 <select
                   name="vegetableServings"
                   value={formData.vegetableServings}
@@ -240,7 +256,7 @@ export function HealthDietaryForm() {
 
               {/* Fruit Servings */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Fruit Servings per Day *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("fruitServingsLabel")} *</label>
                 <select
                   name="fruitServings"
                   value={formData.fruitServings}
@@ -261,7 +277,7 @@ export function HealthDietaryForm() {
 
               {/* Dairy Consumption */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Dairy Consumption *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("dairyConsumptionLabel")} *</label>
                 <select
                   name="dairyConsumption"
                   value={formData.dairyConsumption}
@@ -281,7 +297,7 @@ export function HealthDietaryForm() {
 
               {/* Iron-Rich Foods */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Iron-Rich Foods Consumption *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("ironRichFoodsLabel")} *</label>
                 <select
                   name="ironRichFoods"
                   value={formData.ironRichFoods}
@@ -302,7 +318,7 @@ export function HealthDietaryForm() {
 
               {/* Vitamin C Intake */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Vitamin C Intake *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("vitaminCIntakeLabel")} *</label>
                 <select
                   name="vitaminCIntake"
                   value={formData.vitaminCIntake}
@@ -322,7 +338,7 @@ export function HealthDietaryForm() {
 
               {/* Supplements */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Current Supplements</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("supplementsLabel")}</label>
                 <Input
                   type="text"
                   name="supplements"
@@ -339,12 +355,12 @@ export function HealthDietaryForm() {
           <div>
             <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
               <Activity className="w-4 h-4" />
-              Lifestyle Habits
+              {tLocal("lifestyleHabits")}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Exercise Frequency */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Exercise Frequency *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("exerciseFrequencyLabel")} *</label>
                 <select
                   name="exerciseFrequency"
                   value={formData.exerciseFrequency}
@@ -366,7 +382,7 @@ export function HealthDietaryForm() {
 
               {/* Exercise Duration */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Average Exercise Duration (minutes) *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("exerciseDurationLabel")} *</label>
                 <Input
                   type="number"
                   name="exerciseDuration"
@@ -380,7 +396,7 @@ export function HealthDietaryForm() {
 
               {/* Sleep Hours */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Average Sleep Hours per Night *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("sleepHoursLabel")} *</label>
                 <Input
                   type="number"
                   name="sleepHours"
@@ -395,7 +411,7 @@ export function HealthDietaryForm() {
 
               {/* Stress Level */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Stress Level *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("stressLevelLabel")} *</label>
                 <select
                   name="stressLevel"
                   value={formData.stressLevel}
@@ -415,7 +431,7 @@ export function HealthDietaryForm() {
 
               {/* Water Intake */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Daily Water Intake (glasses) *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("waterIntakeLabel")} *</label>
                 <Input
                   type="number"
                   name="waterIntake"

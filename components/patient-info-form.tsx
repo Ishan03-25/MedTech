@@ -42,7 +42,15 @@ export function PatientInfoForm() {
       emergencyContact: { en: "Emergency Contact", hi: "आपातकालीन संपर्क", bn: "জরুরি পরিচিতি" },
       saveContinue: { en: "Save & Continue", hi: "सहेजें और जारी रखें", bn: "সংরক্ষণ ও চালিয়ে যান" },
       cancel: { en: "Cancel", hi: "रद्द करें", bn: "বাতিল করুন" },
-      selectGender: { en: "Select gender", hi: "लिंग चुनें", bn: "লিঙ্গ নির্বাচন করুন" },
+      selectGender: { en: "Select gender", hi: "লिंग चुनें", bn: "লিঙ্গ নির্বাচন করুন" },
+      dateOfBirth: { en: "Date of Birth", hi: "जन्म तिथि", bn: "জন্মতারিখ" },
+      city: { en: "City", hi: "शहर", bn: "শহর" },
+      state: { en: "State", hi: "राज्य", bn: "রাজ্য" },
+      zipCode: { en: "Zip Code", hi: "पिन कोड", bn: "পিন কোড" },
+      male: { en: "Male", hi: "पुरुष", bn: "পুরুষ" },
+      female: { en: "Female", hi: "महिला", bn: "মহিলা" },
+      other: { en: "Other", hi: "अन्य", bn: "অন্যান্য" },
+      preferNot: { en: "Prefer not to say", hi: "कहना पसंद नहीं", bn: "বলতে চাই না" },
     }
     return translations[key]?.[lang] ?? translations[key]?.["en"] ?? key
   }
@@ -157,7 +165,7 @@ export function PatientInfoForm() {
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
-                  Date of Birth *
+                  {t("dateOfBirth")} *
                 </label>
                 <Input
                   type="date"
@@ -181,10 +189,10 @@ export function PatientInfoForm() {
                   }`}
                 >
                   <option value="">{t("selectGender")}</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                  <option value="prefer-not-to-say">Prefer not to say</option>
+                  <option value="male">{t("male")}</option>
+                  <option value="female">{t("female")}</option>
+                  <option value="other">{t("other")}</option>
+                  <option value="prefer-not-to-say">{t("preferNot")}</option>
                 </select>
                 {errors.gender && <p className="text-xs text-red-600 dark:text-red-400">{errors.gender}</p>}
               </div>
@@ -255,7 +263,7 @@ export function PatientInfoForm() {
               {/* City, State, Zip */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">City *</label>
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{t("city")} *</label>
                   <Input
                     type="text"
                     name="city"
@@ -268,7 +276,7 @@ export function PatientInfoForm() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">State *</label>
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{t("state")} *</label>
                   <Input
                     type="text"
                     name="state"
@@ -281,7 +289,7 @@ export function PatientInfoForm() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Zip Code *</label>
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{t("zipCode")} *</label>
                   <Input
                     type="text"
                     name="zipCode"

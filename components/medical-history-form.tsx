@@ -39,6 +39,27 @@ export function MedicalHistoryForm() {
       title: { en: "Medical History & Lifestyle", hi: "चिकित्सा इतिहास और जीवनशैली", bn: "চিকিৎসা ইতিহাস ও জীবনধারা" },
       description: { en: "Provide your medical history and lifestyle information", hi: "अपना चिकित्सा इतिहास और जीवनशैली जानकारी दें", bn: "আপনার চিকিৎসা ইতিহাস ও জীবনধারা সম্পর্কে তথ্য দিন" },
       medicalHistory: { en: "Medical History", hi: "चिकित्सा इतिहास", bn: "চিকিৎসা ইতিহাস" },
+      familyAnemiaHistoryLabel: { en: "Family History of Anemia", hi: "एनीमिया का पारिवारिक इतिहास", bn: "অ্যানিমিয়ার পারিবারিক ইতিহাস" },
+      personalAnemiaHistoryLabel: { en: "Personal History of Anemia", hi: "एनीमिया का व्यक्तिगत इतिहास", bn: "অ্যানিমিয়ার ব্যক্তিগত ইতিহাস" },
+      otherBloodDisordersLabel: { en: "Other Blood Disorders", hi: "अन्य रक्त विकार", bn: "অন্যান্য রক্তজনিত রোগ" },
+      chronicDiseasesLabel: { en: "Chronic Diseases", hi: "दीर्घकालिक रोग", bn: "দীর্ঘস্থায়ী রোগ" },
+      currentMedicationsLabel: { en: "Current Medications", hi: "वर्तमान दवाइयाँ", bn: "বর্তমান ওষুধ" },
+      allergiesLabel: { en: "Allergies", hi: "एलर्जी", bn: "অ্যালার্জি" },
+      surgeriesLabel: { en: "Previous Surgeries", hi: "पिछली सर्जरी", bn: "পূর্ববর্তী অস্ত্রোপচার" },
+      transfusionsLabel: { en: "Blood Transfusions", hi: "रक्त आधान", bn: "রক্ত সঞ্চালন" },
+      womensHealthTitle: { en: "Women's Health (if applicable)", hi: "महिलाओं का स्वास्थ्य (यदि लागू हो)", bn: "নারীদের স্বাস্থ্য (যদি প্রযোজ্য)" },
+      menstrualStatusLabel: { en: "Menstrual Status", hi: "मासिक धर्म की स्थिति", bn: "মাসিকের অবস্থা" },
+      menstrualCycleLabel: { en: "Menstrual Cycle Length (days)", hi: "मासिक चक्र की लंबाई (दिन)", bn: "মাসিক চক্রের দৈর্ঘ্য (দিন)" },
+      pregnanciesLabel: { en: "Number of Pregnancies", hi: "गर्भधारण की संख्या", bn: "গর্ভধারণের সংখ্যা" },
+      lifestyleHabitsTitle: { en: "Lifestyle & Habits", hi: "जीवनशैली और आदतें", bn: "জীবনধারা ও অভ্যাস" },
+      smokingStatusLabel: { en: "Smoking Status", hi: "धूम्रपान की स्थिति", bn: "ধূমপানের অবস্থা" },
+      smokingFrequencyLabel: { en: "Smoking Frequency", hi: "धूम्रपान की आवृत्ति", bn: "ধূমপানের ঘনত্ব" },
+      alcoholConsumptionLabel: { en: "Alcohol Consumption", hi: "मद्यपान", bn: "মদ্যপান" },
+      alcoholFrequencyLabel: { en: "Alcohol Frequency", hi: "मद्यपान की आवृत्ति", bn: "মদ্যপানের ঘনত্ব" },
+      drugUseLabel: { en: "Recreational Drug Use", hi: "मनोरंजक दवाओं का उपयोग", bn: "বিনোদনমূলক মাদক ব্যবহার" },
+      occupationalExposureLabel: { en: "Occupational Exposure to Hazards", hi: "व्यावसायिक खतरों का संपर्क", bn: "পেশাগত ঝুঁকির সংস্পর্শ" },
+      recentIllnessLabel: { en: "Recent Illness or Infection", hi: "हाल की बीमारी या संक्रमण", bn: "সাম্প্রতিক অসুস্থতা বা সংক্রমণ" },
+      vaccinationsLabel: { en: "Recent Vaccinations", hi: "हाल के टीकाकरण", bn: "সাম্প্রতিক টিকাদান" },
       saveContinue: { en: "Save & Continue", hi: "सहेजें और जारी रखें", bn: "সংরক্ষণ ও চালিয়ে যান" },
       cancel: { en: "Cancel", hi: "रद्द करें", bn: "বাতিল করুন" },
     }
@@ -119,7 +140,7 @@ export function MedicalHistoryForm() {
             <div className="space-y-4">
               {/* Family Anemia History */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Family History of Anemia *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("familyAnemiaHistoryLabel")} *</label>
                 <select
                   name="familyAnemiaHistory"
                   value={formData.familyAnemiaHistory}
@@ -139,7 +160,7 @@ export function MedicalHistoryForm() {
 
               {/* Personal Anemia History */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Personal History of Anemia *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("personalAnemiaHistoryLabel")} *</label>
                 <select
                   name="personalAnemiaHistory"
                   value={formData.personalAnemiaHistory}
@@ -159,7 +180,7 @@ export function MedicalHistoryForm() {
 
               {/* Other Blood Disorders */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Other Blood Disorders</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("otherBloodDisordersLabel")}</label>
                 <Input
                   type="text"
                   name="otherBloodDisorders"
@@ -172,7 +193,7 @@ export function MedicalHistoryForm() {
 
               {/* Chronic Diseases */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Chronic Diseases *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("chronicDiseasesLabel")} *</label>
                 <select
                   name="chronicDiseases"
                   value={formData.chronicDiseases}
@@ -200,7 +221,7 @@ export function MedicalHistoryForm() {
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2">
                   <Pill className="w-4 h-4" />
-                  Current Medications
+                  {tLocal("currentMedicationsLabel")}
                 </label>
                 <textarea
                   name="currentMedications"
@@ -213,7 +234,7 @@ export function MedicalHistoryForm() {
 
               {/* Allergies */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Allergies</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("allergiesLabel")}</label>
                 <textarea
                   name="allergies"
                   value={formData.allergies}
@@ -225,7 +246,7 @@ export function MedicalHistoryForm() {
 
               {/* Surgeries */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Previous Surgeries</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("surgeriesLabel")}</label>
                 <textarea
                   name="surgeries"
                   value={formData.surgeries}
@@ -237,7 +258,7 @@ export function MedicalHistoryForm() {
 
               {/* Blood Transfusions */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Blood Transfusions</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("transfusionsLabel")}</label>
                 <select
                   name="transfusions"
                   value={formData.transfusions}
@@ -255,11 +276,11 @@ export function MedicalHistoryForm() {
 
           {/* Women's Health (if applicable) */}
           <div>
-            <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4">Women's Health (if applicable)</h3>
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4">{tLocal("womensHealthTitle")}</h3>
             <div className="space-y-4">
               {/* Menstrual Status */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Menstrual Status</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("menstrualStatusLabel")}</label>
                 <select
                   name="menstrualStatus"
                   value={formData.menstrualStatus}
@@ -278,7 +299,7 @@ export function MedicalHistoryForm() {
 
               {/* Menstrual Cycle */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Menstrual Cycle Length (days)</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("menstrualCycleLabel")}</label>
                 <Input
                   type="number"
                   name="menstrualCycle"
@@ -291,7 +312,7 @@ export function MedicalHistoryForm() {
 
               {/* Pregnancies */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Number of Pregnancies</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("pregnanciesLabel")}</label>
                 <Input
                   type="number"
                   name="pregnancies"
@@ -306,13 +327,13 @@ export function MedicalHistoryForm() {
 
           {/* Lifestyle & Habits */}
           <div>
-            <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4">Lifestyle & Habits</h3>
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4">{tLocal("lifestyleHabitsTitle")}</h3>
             <div className="space-y-4">
               {/* Smoking Status */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2">
                   <Cigarette className="w-4 h-4" />
-                  Smoking Status *
+                  {tLocal("smokingStatusLabel")} *
                 </label>
                 <select
                   name="smokingStatus"
@@ -333,7 +354,7 @@ export function MedicalHistoryForm() {
               {/* Smoking Frequency */}
               {formData.smokingStatus === "current" && (
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Smoking Frequency</label>
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("smokingFrequencyLabel")}</label>
                   <select
                     name="smokingFrequency"
                     value={formData.smokingFrequency}
@@ -350,7 +371,7 @@ export function MedicalHistoryForm() {
 
               {/* Alcohol Consumption */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Alcohol Consumption *</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("alcoholConsumptionLabel")} *</label>
                 <select
                   name="alcoholConsumption"
                   value={formData.alcoholConsumption}
@@ -371,7 +392,7 @@ export function MedicalHistoryForm() {
               {/* Alcohol Frequency */}
               {formData.alcoholConsumption !== "none" && (
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Alcohol Frequency</label>
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("alcoholFrequencyLabel")}</label>
                   <select
                     name="alcoholFrequency"
                     value={formData.alcoholFrequency}
@@ -389,7 +410,7 @@ export function MedicalHistoryForm() {
 
               {/* Drug Use */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Recreational Drug Use</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("drugUseLabel")}</label>
                 <select
                   name="drugUse"
                   value={formData.drugUse}
@@ -405,7 +426,7 @@ export function MedicalHistoryForm() {
 
               {/* Occupational Exposure */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Occupational Exposure to Hazards</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("occupationalExposureLabel")}</label>
                 <Input
                   type="text"
                   name="occupationalExposure"
@@ -418,7 +439,7 @@ export function MedicalHistoryForm() {
 
               {/* Recent Illness */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Recent Illness or Infection</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("recentIllnessLabel")}</label>
                 <Input
                   type="text"
                   name="recentIllness"
@@ -431,7 +452,7 @@ export function MedicalHistoryForm() {
 
               {/* Vaccinations */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Recent Vaccinations</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{tLocal("vaccinationsLabel")}</label>
                 <Input
                   type="text"
                   name="vaccinations"

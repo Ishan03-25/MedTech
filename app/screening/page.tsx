@@ -74,9 +74,9 @@ export default function ScreeningPage() {
               </Button>
             </Link> */}
             <div>
-              <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">New Screening</h1>
+              <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">{t("newScreeningTitle")}</h1>
               <p className="text-slate-600 dark:text-slate-400 mt-1">
-                Step {currentStepIndex + 1} of {steps.length}: {steps[currentStepIndex].label}
+                {t("stepWord")} {currentStepIndex + 1} {t("ofWord")} {steps.length}: {steps[currentStepIndex].label}
               </p>
             </div>
           </div>
@@ -88,9 +88,9 @@ export default function ScreeningPage() {
         {/* Progress Indicator */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Progress</span>
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{t("progressLabel")}</span>
             <span className="text-sm text-slate-600 dark:text-slate-400">
-              {currentStepIndex + 1} of {steps.length}
+              {currentStepIndex + 1} {t("ofWord")} {steps.length}
             </span>
           </div>
           <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 mb-6">
@@ -132,11 +132,11 @@ export default function ScreeningPage() {
               <p className="text-slate-600 dark:text-slate-400 mb-6">{t("reviewCopy")}</p>
               <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
                 <p className="text-sm text-blue-800 dark:text-blue-200">
-                  All information has been collected. Click "Submit Screening" to complete the process.
+                  {t("infoAllCollected")}
                 </p>
               </div>
               <Button className="w-full bg-gradient-to-r from-primary to-accent hover:shadow-lg h-11">
-                Submit Screening
+                {t("submitScreening")}
               </Button>
             </div>
           )}
@@ -151,7 +151,7 @@ export default function ScreeningPage() {
             className="border-slate-200 dark:border-slate-600 bg-transparent text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
           >
             <ChevronLeft className="w-4 h-4 mr-2" />
-            Previous
+            {t("previous")}
           </Button>
 
           <Button
@@ -159,7 +159,7 @@ export default function ScreeningPage() {
             disabled={currentStepIndex === steps.length - 1}
             className="bg-gradient-to-r from-primary to-accent hover:shadow-lg"
           >
-            Next
+            {t("next")}
             <ChevronLeft className="w-4 h-4 ml-2 rotate-180" />
           </Button>
         </div>
