@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { PatientInfoForm } from "@/components/patient-info-form"
 import { LanguageProvider, useLanguage, Language, useT } from "@/components/language-context"
 import { HealthDietaryForm } from "@/components/health-dietary-form"
@@ -13,7 +13,24 @@ type ScreeningStep = "patient" | "health" | "medical" | "review"
 
 export default function ScreeningPage() {
   const [currentStep, setCurrentStep] = useState<ScreeningStep>("patient")
+  const [files, setFiles] = useState<File[]>([])
+  const [previews, setPreviews] = useState<string[]>([])
 
+  useEffect(() => {
+    if (files.length === 0) {
+      setPreviews([])
+      return
+    }
+
+    const urls = files.map((f) => (f.type.startsWith("image/") ? URL.createObjectURL(f) : ""))
+    setPreviews(urls)
+
+    return () => {
+      urls.forEach((u) => {
+        if (u) URL.revokeObjectURL(u)
+      })
+    }
+  }, [files])
   const t = useT()
 
   const steps = [
@@ -130,12 +147,77 @@ export default function ScreeningPage() {
             <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-md p-8">
               <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">{t("reviewTitle")}</h2>
               <p className="text-slate-600 dark:text-slate-400 mb-6">{t("reviewCopy")}</p>
+              {/* File / Photo upload area */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">{t("uploadFilesLabel") ?? "Attach photos or files (optional)"}</label>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*,application/pdf,application/*"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const selected = e.target.files
+                    if (!selected) return
+                    const array = Array.from(selected)
+                    // simple size check: 10MB per file
+                    const maxSize = 10 * 1024 * 1024
+                    const filtered = array.filter((f) => {
+                      if (f.size > maxSize) {
+                        // eslint-disable-next-line no-console
+                        console.warn(`${f.name} exceeds 10MB and will be skipped.`)
+                        return false
+                      }
+                      return true
+                    })
+                    setFiles((prev) => [...prev, ...filtered])
+                  }}
+                  className="block w-full text-sm text-slate-600 bg-white file:border-0 file:bg-slate-100 file:px-3 file:py-1 file:rounded-md file:text-slate-700 dark:file:bg-slate-700"
+                />
+
+                {/* previews */}
+                {previews.length > 0 || files.length > 0 ? (
+                  <div className="mt-4 grid grid-cols-3 gap-3">
+                    {files.map((f, idx) => (
+                      <div key={idx} className="border rounded p-2 bg-slate-50 dark:bg-slate-900">
+                        {f.type.startsWith("image/") && previews[idx] ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={previews[idx]} alt={f.name} className="w-full h-28 object-cover rounded" />
+                        ) : (
+                          <div className="flex flex-col items-start gap-2">
+                            <div className="text-sm font-medium text-slate-800 dark:text-slate-200">{f.name}</div>
+                            <div className="text-xs text-slate-600 dark:text-slate-400">{(f.size / 1024).toFixed(0)} KB</div>
+                          </div>
+                        )}
+                        <div className="flex items-center justify-between mt-2">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFiles((prev) => prev.filter((_, i) => i !== idx))
+                              setPreviews((prev) => prev.filter((_, i) => i !== idx))
+                            }}
+                            className="text-xs text-red-600 hover:underline"
+                          >
+                            {t("remove") ?? "Remove"}
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
               <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
                 <p className="text-sm text-blue-800 dark:text-blue-200">
                   {t("infoAllCollected")}
                 </p>
               </div>
-              <Button className="w-full bg-gradient-to-r from-primary to-accent hover:shadow-lg h-11">
+              <Button
+                className="w-full bg-gradient-to-r from-primary to-accent hover:shadow-lg h-11"
+                onClick={() => {
+                  // TODO: wire to upload/submit endpoint. For now, log selected files and proceed.
+                  // eslint-disable-next-line no-console
+                  console.log("Submitting screening with files:", files)
+                  alert(`${t("submitScreening")}: ${files.length} file(s) attached`)
+                }}
+              >
                 {t("submitScreening")}
               </Button>
             </div>
