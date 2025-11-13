@@ -6,7 +6,9 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../lib/generated/prisma"
+  // Use the default runtime output so Prisma places the client and engines
+  // where the runtime expects them in deployments.
+  output   = "node_modules/.prisma/client"
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
