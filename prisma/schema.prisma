@@ -5,10 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  // Use the default runtime output so Prisma places the client and engines
-  // where the runtime expects them in deployments.
-  output   = "node_modules/.prisma/client"
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
