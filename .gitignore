@@ -25,4 +25,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-/lib/generated/prisma
+# note: lib/generated/prisma was removed from ignore so deployment includes Prisma engines
